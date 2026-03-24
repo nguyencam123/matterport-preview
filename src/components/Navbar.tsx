@@ -2,12 +2,12 @@
 import { useState, useEffect } from "react";
 import { PROJECT, CONTACT } from "@/data/project";
 
-const NAV_LINKS = [
-  // { href: "#tour", label: "Tour 3D" },
-  // { href: "#units", label: "Căn hộ" },
-  // { href: "#amenities", label: "Tiện ích" },
-  // { href: "#contact", label: "Liên hệ" },
-];
+// const NAV_LINKS = [
+//   // { href: "#tour", label: "Tour 3D" },
+//   // { href: "#units", label: "Căn hộ" },
+//   // { href: "#amenities", label: "Tiện ích" },
+//   // { href: "#contact", label: "Liên hệ" },
+// ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -42,7 +42,7 @@ export default function Navbar() {
         </div>
 
         {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-8">
+        {/* <div className="hidden md:flex items-center gap-8">
           {NAV_LINKS.map((l) => (
             <a
               key={l.href}
@@ -52,7 +52,7 @@ export default function Navbar() {
               {l.label}
             </a>
           ))}
-        </div>
+        </div> */}
 
         {/* CTA */}
         <a
@@ -64,7 +64,7 @@ export default function Navbar() {
 
         {/* Mobile hamburger */}
         <button
-          className="md:hidden flex flex-col gap-[5px] p-1"
+          className="md:hidden flex flex-col gap-1.25 p-1"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Menu"
         >
@@ -82,8 +82,8 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="fixed top-[64px] left-0 right-0 z-40 bg-[#0b0b0b]/97 backdrop-blur-lg border-b border-white/[0.07] flex flex-col px-6 pb-6">
-          {NAV_LINKS.map((l) => (
+        <div className="fixed top-16 left-0 right-0 z-40 bg-[#0b0b0b]/97 backdrop-blur-lg border-b border-white/[0.07] flex flex-col px-6 pb-6">
+          {/* {NAV_LINKS.map((l) => (
             <a
               key={l.href}
               href={l.href}
@@ -92,7 +92,7 @@ export default function Navbar() {
             >
               {l.label}
             </a>
-          ))}
+          ))} */}
           <a
             href={`tel:${CONTACT.phone}`}
             className="mt-4 py-3 text-center border border-[#c8a96e] rounded-md text-sm text-[#c8a96e]"

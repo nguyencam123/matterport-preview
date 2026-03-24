@@ -1,8 +1,8 @@
 "use client";
 import { useRef, useState } from "react";
 import { useMatterport, type HotspotDef } from "@/hooks/useMatterport";
-import { UNITS, MATTERPORT, TRANSITIONS } from "@/data/project";
-import type { Unit, TransitionKey } from "@/types";
+import { MATTERPORT, TRANSITIONS } from "@/data/project";
+import type { TransitionKey } from "@/types";
 
 // ─────────────────────────────────────────────
 //  HOTSPOTS — chỉnh sửa ở đây
@@ -29,24 +29,18 @@ const HOTSPOTS: HotspotDef[] = [
 
 export default function TourSection() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [activeUnitId, setActiveUnitId] = useState<string | null>(null);
   const [transition, setTransition] = useState<TransitionKey>("FADE");
 
   // Truyền HOTSPOTS vào hook — tự động inject HTML khi SDK ready
-  const { status, currentSweepId, allSweeps, moveTo } = useMatterport(
+  const { status, currentSweepId, allSweeps } = useMatterport(
     iframeRef,
     HOTSPOTS,
   );
 
-  const handleUnit = (unit: Unit) => {
-    setActiveUnitId(unit.id);
-    moveTo(unit.sweepId, transition);
-  };
-
   const src = `https://my.matterport.com/show/?m=${MATTERPORT.modelId}&play=1&qs=1&hr=0&vr=0`;
 
   return (
-    <section id="tour" className="py-20 px-6 md:px-10 max-w-[1280px] mx-auto">
+    <section id="tour" className="py-20 px-6 md:px-10 max-w-7xl mx-auto">
       {/* Header */}
       {/* <div className="text-center mb-12">
         <div className="inline-block text-[10px] tracking-[0.18em] uppercase text-[#c8a96e] border border-[#c8a96e]/30 rounded-full px-3.5 py-1 mb-4">
@@ -139,7 +133,7 @@ export default function TourSection() {
                   : "Lỗi SDK — kiểm tra key"}
             </span>
             {currentSweepId && (
-              <span className="text-[11px] text-white/25 font-mono bg-white/[0.05] px-2 py-0.5 rounded">
+              <span className="text-[11px] text-white/25 font-mono bg-white/5 px-2 py-0.5 rounded">
                 {currentSweepId.slice(0, 20)}…
               </span>
             )}

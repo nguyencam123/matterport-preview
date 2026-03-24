@@ -110,9 +110,6 @@ export function useMatterport(
           mpSdk.Sweep.current.subscribe((sweep) => {
             if (sweep?.id) {
               setCurrentSweepId(sweep.id);
-              console.log("[Current Sweep]", sweep.id);
-              console.log("[Position]", (sweep as any).position);
-
               // Chỉ xoay 1 lần duy nhất khi vừa load xong
               if (!hasRotatedAtStart) {
                 hasRotatedAtStart = true;
@@ -121,8 +118,8 @@ export function useMatterport(
                 setTimeout(() => {
                   let poseHandled = false;
 
-                  const unsubscribePose = mpSdk.Camera.pose.subscribe(
-                    (pose: any) => {
+                  mpSdk.Camera.pose.subscribe(
+                    (pose: { rotation: { x: number; y: number } }) => {
                       if (poseHandled) return;
                       poseHandled = true;
 
@@ -134,9 +131,6 @@ export function useMatterport(
                       ).catch((err: unknown) => {
                         console.warn("[setRotation failed]", err);
                       });
-
-                      // Unsubscribe ngay sau khi xử lý xong
-                      unsubscribePose();
                     },
                   );
                 }, 600); // delay 600ms sau khi sweep đầu tiên được detect

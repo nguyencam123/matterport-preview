@@ -12,6 +12,33 @@ declare global {
 }
 
 export interface MpSdk {
+  on(CLICK: string, arg1: (sid: string) => void): unknown;
+  Mattertag: {
+    Event: { CLICK: string };
+    injectHTML(
+      tagSid: string,
+      arg1: string,
+      arg2: { size: { w: number; h: number } },
+    ): unknown;
+    add: (options: {
+      label: string;
+      description: string;
+      anchorPosition: { x: number; y: number; z: number };
+      stemVector?: { x: number; y: number; z: number };
+      color: { r: number; g: number; b: number };
+    }) => Promise<string | string[]>;
+  };
+  Camera: {
+    pose: {
+      subscribe: (
+        cb: (pose: { rotation: { x: number; y: number } }) => void,
+      ) => void;
+    };
+    setRotation: (
+      rotation: { x: number; y: number },
+      opts: { speed: number },
+    ) => Promise<void>;
+  };
   Sweep: {
     current: {
       subscribe: (cb: (sweep: { id: string } | null) => void) => void;
