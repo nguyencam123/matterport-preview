@@ -1,13 +1,14 @@
+import Image from "next/image";
 import { PROJECT } from "@/data/project";
 import imgBg from "../../public/BFD-logo_web.png";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/[0.06] bg-[#0a0a0a] px-6 md:px-10 py-8">
-      <div className="max-w-[1280px] mx-auto flex flex-wrap items-center justify-between gap-4">
+    <footer className="border-t border-white/6 bg-[#0a0a0a] px-6 md:px-10 py-8">
+      <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
         {/* Brand */}
         <div className="flex items-center gap-2.5">
-          <span className="text-[#c8a96e] text-xl"><img src={imgBg.src} alt="Brand" className="h-8" /></span>
+          <span className="text-[#c8a96e] text-xl"><Image src={imgBg} alt="Brand" width={32} height={32} className="h-8" /></span>
           <div>
             <div className="text-[#c8a96e] text-[11px] font-medium tracking-[0.08em] uppercase">
               {PROJECT.developer}

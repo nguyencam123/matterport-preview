@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { PROJECT, CONTACT } from "@/data/project";
 import imgBg from "../../public/BFD-logo_web.png";
@@ -30,7 +31,7 @@ export default function Navbar() {
       >
         {/* Brand */}
         <div className="flex items-center gap-2.5">
-          <span className="text-[#c8a96e] text-xl"><img src={imgBg.src} alt="Brand" className="h-8" /></span>
+          <span className="text-[#c8a96e] text-xl"><Image src={imgBg} alt="Brand" width={32} height={32} className="w-8 h-8" /></span>
           <div>
             <div className="text-[#c8a96e] text-[11px] font-medium tracking-[0.08em] uppercase">
               {PROJECT.developer}
