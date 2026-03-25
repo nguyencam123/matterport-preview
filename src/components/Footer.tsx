@@ -1,11 +1,5 @@
-import { PROJECT, CONTACT } from "@/data/project";
-
-const NAV_LINKS = [
-  { href: "#tour", label: "Tour 3D" },
-  { href: "#units", label: "Căn hộ" },
-  { href: "#amenities", label: "Tiện ích" },
-  { href: "#contact", label: "Liên hệ" },
-];
+import { PROJECT } from "@/data/project";
+import imgBg from "../../public/BFD-logo_web.png";
 
 export default function Footer() {
   return (
@@ -13,14 +7,14 @@ export default function Footer() {
       <div className="max-w-[1280px] mx-auto flex flex-wrap items-center justify-between gap-4">
         {/* Brand */}
         <div className="flex items-center gap-2.5">
-          <span className="text-[#c8a96e] text-xl">◈</span>
+          <span className="text-[#c8a96e] text-xl"><img src={imgBg.src} alt="Brand" className="h-8" /></span>
           <div>
             <div className="text-[#c8a96e] text-[11px] font-medium tracking-[0.08em] uppercase">
               {PROJECT.developer}
             </div>
-            <div className="text-white/25 text-[9px] tracking-[0.1em] mt-0.5">
+            {/* <div className="text-white/25 text-[9px] tracking-[0.1em] mt-0.5">
               {PROJECT.name} · Virtual Tour
-            </div>
+            </div> */}
           </div>
         </div>
 

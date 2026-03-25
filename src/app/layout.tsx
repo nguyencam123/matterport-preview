@@ -9,7 +9,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "The Grand Residence — Virtual Tour",
+  title: "BFD Preview matterport",
   description: "Khám phá không gian sống đẳng cấp qua tour 3D tương tác",
 };
 

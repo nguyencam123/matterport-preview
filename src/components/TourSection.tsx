@@ -1,41 +1,45 @@
 "use client";
 import { useRef, useState } from "react";
-import { useMatterport, type HotspotDef } from "@/hooks/useMatterport";
-import { MATTERPORT, TRANSITIONS } from "@/data/project";
+import { MATTERPORT } from "@/data/project";
 import type { TransitionKey } from "@/types";
 
 // ─────────────────────────────────────────────
 //  HOTSPOTS — chỉnh sửa ở đây
 //  anchorPosition: log console "[Position]" khi đứng gần điểm muốn đặt
 // ─────────────────────────────────────────────
-const HOTSPOTS: HotspotDef[] = [
-  {
-    label: "Chính điện →",
-    targetSweepId: "m13k6xwt0sfkwgq81s014bx5a",
-    anchorPosition: {
-      x: 47.422313413083785,
-      y: 1.977594757994845,
-      z: 19.632136899407037,
-    },
-    transition: "FADE",
-  },
-  // Thêm hotspot khác ở đây:
-  // {
-  //   label: "Nhà bếp →",
-  //   targetSweepId: "SWEEP_ID_KITCHEN",
-  //   anchorPosition: { x: ..., y: ..., z: ... },
-  // },
-];
+// const HOTSPOTS: HotspotDef[] = [
+//   {
+//     label: "Chính điện →",
+//     targetSweepId: "m13k6xwt0sfkwgq81s014bx5a",
+//     anchorPosition: {
+//       x: 47.422313413083785,
+//       y: 1.977594757994845,
+//       z: 19.632136899407037,
+//     },
+//     transition: "FADE",
+//   },
+//   // Thêm hotspot khác ở đây:
+//   // {
+//   //   label: "Nhà bếp →",
+//   //   targetSweepId: "SWEEP_ID_KITCHEN",
+//   //   anchorPosition: { x: ..., y: ..., z: ... },
+//   // },
+// ];
 
 export default function TourSection() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [transition, setTransition] = useState<TransitionKey>("FADE");
 
   // Truyền HOTSPOTS vào hook — tự động inject HTML khi SDK ready
-  const { status, currentSweepId, allSweeps } = useMatterport(
-    iframeRef,
-    HOTSPOTS,
-  );
+  // const { status, currentSweepId, allSweeps } = useMatterport(
+  //   iframeRef,
+  //   HOTSPOTS,
+  //   {
+  //     baseRotationY: 180,
+  //     leftDeg: -40,
+  //     rightDeg: 40,
+  //   },
+  // );
 
   const src = `https://my.matterport.com/show/?m=${MATTERPORT.modelId}&play=1&qs=1&hr=0&vr=0`;
 
@@ -114,76 +118,26 @@ export default function TourSection() {
       {/* Viewer */}
       <div className="border border-white/[0.07] rounded-xl overflow-hidden bg-[#0b0b0b]">
         {/* Status bar */}
-        <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.07] flex-wrap gap-2">
-          <div className="flex items-center gap-2.5">
-            <span
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                status === "ready"
-                  ? "bg-[#8eb8a0] shadow-[0_0_5px_#8eb8a0]"
-                  : status === "error"
-                    ? "bg-red-500"
-                    : "bg-zinc-600"
-              }`}
-            />
-            <span className="text-[12px] text-white/40 font-mono">
-              {status === "connecting"
-                ? "Đang kết nối SDK..."
-                : status === "ready"
-                  ? `SDK sẵn sàng · ${allSweeps.length} điểm · ${HOTSPOTS.length} hotspot`
-                  : "Lỗi SDK — kiểm tra key"}
-            </span>
-            {currentSweepId && (
-              <span className="text-[11px] text-white/25 font-mono bg-white/5 px-2 py-0.5 rounded">
-                {currentSweepId.slice(0, 20)}…
-              </span>
-            )}
-          </div>
-
-          {/* Transition picker */}
-          <div className="flex items-center gap-1.5">
-            <span className="text-[11px] text-white/30 mr-1">Transition:</span>
-            {TRANSITIONS.map((t) => (
-              <button
-                key={t.key}
-                onClick={() => setTransition(t.key)}
-                className={`px-2.5 py-1 text-[11px] rounded border transition-colors ${
-                  transition === t.key
-                    ? "border-[#c8a96e] text-[#c8a96e]"
-                    : "border-white/10 text-white/35 hover:border-white/25"
-                }`}
-              >
-                {t.label}
-              </button>
-            ))}
-          </div>
-        </div>
+        {/* <iframe width="853" height="480" src="https://my.matterport.com/show/?m=YtVzqVgSyFT" frameborder="0" allowfullscreen allow="autoplay; fullscreen; web-share; xr-spatial-tracking;"></iframe> */}
 
         {/* iframe 16:9 */}
         <div className="relative" style={{ paddingTop: "56.25%" }}>
-          {status === "connecting" && (
+          {/* {status === "connecting" && (
             <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 bg-[#0b0b0b]">
               <div className="w-9 h-9 rounded-full border-2 border-white/[0.07] border-t-[#c8a96e] animate-spin" />
               <span className="text-[13px] text-white/40">
                 Đang tải không gian 3D...
               </span>
             </div>
-          )}
+          )} */}
           <iframe
-            ref={iframeRef}
-            src={src}
+            src="https://my.matterport.com/show/?m=YtVzqVgSyFT&play=1&qs=1&hr=0&vr=0&ts=1"
             className="absolute inset-0 w-full h-full border-0"
             allowFullScreen
             allow="autoplay; fullscreen; web-share; xr-spatial-tracking"
           />
         </div>
       </div>
-
-      {/* Hướng dẫn lấy tọa độ hotspot */}
-      <p className="mt-3 text-[11px] text-white/20 text-center">
-        Mở DevTools → Console → di chuyển trong tour → xem log{" "}
-        <code className="text-white/30">[Position]</code> để lấy tọa độ đặt
-        hotspot
-      </p>
     </section>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { PROJECT, CONTACT } from "@/data/project";
-
+import imgBg from "../../public/BFD-logo_web.png";
 // const NAV_LINKS = [
 //   // { href: "#tour", label: "Tour 3D" },
 //   // { href: "#units", label: "Căn hộ" },
@@ -30,7 +30,7 @@ export default function Navbar() {
       >
         {/* Brand */}
         <div className="flex items-center gap-2.5">
-          <span className="text-[#c8a96e] text-xl">◈</span>
+          <span className="text-[#c8a96e] text-xl"><img src={imgBg.src} alt="Brand" className="h-8" /></span>
           <div>
             <div className="text-[#c8a96e] text-[11px] font-medium tracking-[0.08em] uppercase">
               {PROJECT.developer}

@@ -3,7 +3,35 @@ import type { Unit, Amenity } from "@/types/index";
 // ============================================================
 //  DỮ LIỆU DỰ ÁN — chỉnh sửa file này cho từng dự án
 // ============================================================
-
+export const TOUR_SWEEPS  = [
+    "ux0i8tw2swtmzig8kyfqn290a",
+    "ixk2nx8cfgurz73cc09f45epc",
+    "0ftdcq3cynzpprb3serxhhdxa",
+    "ibcmdqcyx7f3gxmpktudmmb6a",
+    "xim693dw9y22p1ig8s8efud2d",
+    "zkfft1xdf1ai9h1ishx6nf4wb",
+    "yhpk7w3gx6c5i0tkhukn643wb",
+    "sxu4sinrx391g893ux4as3emc",
+    "h2q7p5wf0t360mp0qq0fmtu4d",
+    "x1qaprgfpti24q9i0edwxrutc",
+    "cqqqb699mxw6a97f42tp9u7ka",
+    "mfbhipisrw46eybwiyfnqf6qd",
+    "wgnqrumc7ebc4t05mui19pinc",
+    "qwz29a62y096sed7w7ag9g65c",
+    "4qzf0008bb47u6sise1q01mtc",
+    "reh6iq9b2wn92gkmtr4uwcpdb",
+    "qq3dab0dw9dmbpbg4wdu644ab",
+    "pn6zub53zph7dawbt4r7ycm0b",
+    "m13k6xwt0sfkwgq81s014bx5a",
+    "9izcdcg77pbfd7bq1s1ns58yc",
+    "i9c4zmxu8f2gf4xfkrxeus0rb",
+    "zgc3c2q5p5g3azi3fxf9wmeba",
+    "t2zb98nm5b3ph3g1c4y5nnt5c",
+    "89193chrha4ubprw6cpfq4tsd",
+    "wdmeica7dxnda1er00ca3wt5c",
+    "42txmg5a4bfmwe7pk5e5sy6id",
+    "bggduzbe1u1dukmxt5c4ekh7b"
+]
 export const PROJECT = {
   name: "The Grand Residence",
   tagline: "Khám phá không gian sống đẳng cấp theo cách của bạn",
@@ -97,10 +125,10 @@ export const AMENITIES: Amenity[] = [
 ];
 
 export const CONTACT = {
-  phone: "0901 234 567",
-  email: "sales@bfd.vn",
+  phone: "+84 339 188 182",
+  email: "info@bfd.vn",
   website: "https://bfd.vn",
-  address: "Tầng 10, Toà nhà ABC, Hà Đông, Hà Nội",
+  address: "TE8 - TT9 Xuan Phuong Ecological Urban Area, Xuan Phuong Ward, Ha Noi",
   workingHours: "T2 – CN: 8:00 – 20:00",
 } as const;
 
