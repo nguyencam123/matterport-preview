@@ -85,40 +85,37 @@ const SWEEP_DATA = {
   },
 } as const;
 
-type SweepInfo = typeof SWEEP_DATA[keyof typeof SWEEP_DATA];
+type SweepInfo = (typeof SWEEP_DATA)[keyof typeof SWEEP_DATA];
 
 export default function TourSection() {
   const [drawerData, setDrawerData] = useState<SweepInfo | null>(null);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://static.matterport.com/showcase-sdk/latest.js";
-    script.onload = async () => {
-      const iframe = document.getElementById("mp-iframe") as HTMLIFrameElement;
-      const sdk = await window.MP_SDK.connect(iframe, "", "");
+    const handler = (event: MessageEvent) => {
+      // Chỉ nhận message từ bridge của chính mình
+      if (event.data?.type !== "MP_SWEEP_CHANGE") return;
 
-      sdk.Sweep.current.subscribe((sweep: { id: string } | null) => {
-        if (sweep) {
-          const info = SWEEP_DATA[sweep.id as keyof typeof SWEEP_DATA];
-          if (info) {
-            setDrawerData(info);
-            setOpen(true);
-          }
-        }
-        // Không đóng drawer khi đi sang sweep khác không có data
-      });
+      const sweepId = event.data.sweepId as string;
+      const info = SWEEP_DATA[sweepId as keyof typeof SWEEP_DATA];
+      if (info) {
+        setDrawerData(info);
+        setOpen(true);
+      }
     };
-    document.head.appendChild(script);
+
+    window.addEventListener("message", handler);
+    return () => window.removeEventListener("message", handler);
   }, []);
 
   return (
     <section id="tour" className="py-20 px-6 md:px-10 max-w-7xl mx-auto">
       <div className="relative border border-white/[0.07] rounded-xl overflow-hidden bg-[#0b0b0b]">
         <div className="relative" style={{ paddingTop: "56.25%" }}>
+          {/* Trỏ vào bridge thay vì Matterport trực tiếp */}
           <iframe
             id="mp-iframe"
-            src={`https://my.matterport.com/show/?m=YtVzqVgSyFT&play=1&qs=1&hr=0&vr=0&ts=1&applicationKey=wd6pwmg28cn410xsucqgf9eyb`}
+            src="/mp-bridge.html"
             className="absolute inset-0 w-full h-full border-0"
             allowFullScreen
             allow="autoplay; fullscreen; web-share; xr-spatial-tracking"
@@ -126,7 +123,8 @@ export default function TourSection() {
         </div>
 
         {/* Drawer */}
-        <div className={`absolute top-0 right-0 h-full w-80 
+        <div
+          className={`absolute top-0 right-0 h-full w-80 
           bg-black/90 backdrop-blur-xl border-l border-[#c8a96e]/15
           transition-transform duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] z-20
           flex flex-col overflow-hidden
@@ -135,19 +133,26 @@ export default function TourSection() {
           {/* scan animation */}
           <div className="absolute inset-x-0 h-0.5 bg-linear-to-r from-transparent via-[#c8a96e]/30 to-transparent animate-[scan_3s_ease-in-out_infinite] pointer-events-none" />
 
-          <button onClick={() => setOpen(false)}
+          <button
+            onClick={() => setOpen(false)}
             className="absolute top-3.5 right-3.5 w-7 h-7 rounded-full 
               bg-white/5 border border-white/10 text-white/40 hover:text-white 
-              hover:bg-white/10 transition-all flex items-center justify-center text-sm z-10">
+              hover:bg-white/10 transition-all flex items-center justify-center text-sm z-10"
+          >
             ✕
           </button>
 
           {drawerData && (
             <>
               {/* Header */}
-              <div className="px-4.5 pt-4.5 pb-0 shrink-0" style={{ padding: "18px 18px 0" }}>
-                <div className="inline-flex items-center gap-1.5 bg-[#c8a96e]/8 
-                  border border-[#c8a96e]/20 rounded-full px-2.5 py-1 mb-3.5">
+              <div
+                className="px-4.5 pt-4.5 pb-0 shrink-0"
+                style={{ padding: "18px 18px 0" }}
+              >
+                <div
+                  className="inline-flex items-center gap-1.5 bg-[#c8a96e]/8 
+                  border border-[#c8a96e]/20 rounded-full px-2.5 py-1 mb-3.5"
+                >
                   <div className="w-1.5 h-1.5 rounded-full bg-[#c8a96e] animate-pulse" />
                   <span className="text-[10px] tracking-[0.12em] text-[#c8a96e] uppercase">
                     Nhận diện không gian
@@ -162,9 +167,16 @@ export default function TourSection() {
               </div>
 
               {/* Image */}
-              <div className="mx-4.5 mb-4 rounded-xl overflow-hidden aspect-video relative shrink-0" style={{ margin: "0 18px 16px" }}>
-                <Image src={drawerData.img} alt={drawerData.imgLabel}
-                  className="w-full h-full object-cover" fill />
+              <div
+                className="mx-4.5 mb-4 rounded-xl overflow-hidden aspect-video relative shrink-0"
+                style={{ margin: "0 18px 16px" }}
+              >
+                <Image
+                  src={drawerData.img}
+                  alt={drawerData.imgLabel}
+                  className="w-full h-full object-cover"
+                  fill
+                />
                 <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent" />
                 <span className="absolute bottom-2 left-2.5 text-[10px] text-white/50 tracking-wider">
                   {drawerData.imgLabel}
@@ -172,21 +184,33 @@ export default function TourSection() {
               </div>
 
               {/* Body */}
-              <div className="flex-1 overflow-y-auto px-4.5 pb-4.5" style={{ padding: "0 18px 18px" }}>
-                <p className="text-[13px] text-white/55 leading-[1.8]">{drawerData.desc}</p>
+              <div
+                className="flex-1 overflow-y-auto px-4.5 pb-4.5"
+                style={{ padding: "0 18px 18px" }}
+              >
+                <p className="text-[13px] text-white/55 leading-[1.8]">
+                  {drawerData.desc}
+                </p>
                 <div className="h-px bg-white/6 my-3.5" />
                 <div className="flex flex-col gap-2.5">
                   {drawerData.attrs.map(([k, v]) => (
                     <div key={k} className="flex justify-between gap-2">
-                      <span className="text-[11px] text-white/30 uppercase tracking-[0.08em]">{k}</span>
-                      <span className="text-[12px] text-[#f0ede8]/80 text-right leading-snug">{v}</span>
+                      <span className="text-[11px] text-white/30 uppercase tracking-[0.08em]">
+                        {k}
+                      </span>
+                      <span className="text-[12px] text-[#f0ede8]/80 text-right leading-snug">
+                        {v}
+                      </span>
                     </div>
                   ))}
                 </div>
                 <div className="flex flex-wrap gap-1.5 mt-3.5">
                   {drawerData.tags.map((tag) => (
-                    <span key={tag} className="text-[11px] px-2.5 py-1 rounded-full 
-                      bg-[#c8a96e]/[0.07] border border-[#c8a96e]/18 text-[#c8a96e]/70">
+                    <span
+                      key={tag}
+                      className="text-[11px] px-2.5 py-1 rounded-full 
+                      bg-[#c8a96e]/[0.07] border border-[#c8a96e]/18 text-[#c8a96e]/70"
+                    >
                       {tag}
                     </span>
                   ))}

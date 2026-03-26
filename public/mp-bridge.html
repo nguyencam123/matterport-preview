@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body,
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <iframe
+      id="mp-iframe"
+      src="https://my.matterport.com/show/?m=YtVzqVgSyFT&play=1&qs=1&hr=0&vr=0&ts=1&applicationKey=5zm3ey7n4bpp0mu38p989mhdc"
+      allowfullscreen
+      allow="autoplay; fullscreen; web-share; xr-spatial-tracking"
+    ></iframe>
+
+    <script src="https://static.matterport.com/showcase-sdk/latest.js"></script>
+    <script>
+      window.addEventListener("load", async () => {
+        try {
+          const iframe = document.getElementById("mp-iframe");
+          // connect không cần key — bridge chạy cùng domain production
+          const sdk = await window.MP_SDK.connect(iframe, "", "");
+
+          sdk.Sweep.current.subscribe((sweep) => {
+            if (!sweep || !sweep.id) return;
+            // relay lên parent component
+            window.parent.postMessage(
+              { type: "MP_SWEEP_CHANGE", sweepId: sweep.id },
+              "*",
+            );
+          });
+        } catch (err) {
+          console.error("[mp-bridge]", err);
+        }
+      });
+    </script>
+  </body>
+</html>

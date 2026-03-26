@@ -8,7 +8,9 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
         {/* Brand */}
         <div className="flex items-center gap-2.5">
-          <span className="text-[#c8a96e] text-xl"><Image src={imgBg} alt="Brand" width={32} height={32} className="h-8" /></span>
+          <span className="text-[#c8a96e] text-xl">
+            <Image src={imgBg} alt="Brand" height={32} className="h-8" />
+          </span>
           <div>
             <div className="text-[#c8a96e] text-[11px] font-medium tracking-[0.08em] uppercase">
               {PROJECT.developer}
